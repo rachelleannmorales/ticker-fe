@@ -4,6 +4,7 @@ const initialState = {
 }
 const AuthReducer = (state = initialState, {type, payload}) => {
   switch (type) {
+    case 'SESSION_RESTORE':
     case 'LOGIN_SUCCESS':
       return {
         ...state,

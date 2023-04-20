@@ -10,8 +10,13 @@ export const logout = () => {
   return { type: 'LOGOUT_REQUEST' };
 };
 
+export const restoreSession = () => {
+  return { type: 'SESSION_RESTORE' };
+};
+
 export default {
   login,
   refreshTokens,
-  logout
+  logout,
+  restoreSession
 };

@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAccessToken } from '../services/AuthService';
+import { useSelector } from 'react-redux';
+import { getAccessToken, getRefreshToken } from '../services/AuthService';
+import { useDispatch } from 'react-redux';
+import { restoreSession } from '../actions/AuthActions';
 
 const requireAuth = (Component: any) => {
   const Wrapper = () => {
       const navigate = useNavigate();
-      const isLoggedIn = getAccessToken()
+      const isLoggedin = useSelector((state: any) => state.auth.isLoggedin);
+      const dispatch = useDispatch();
       useEffect(() => {
-        if (!isLoggedIn) {
+        if (!getAccessToken()) {
           navigate("/login")
         }
-      }, [navigate, isLoggedIn]);
+      }, [navigate]);
+
+      useEffect(() => {
+        if (getAccessToken() && getRefreshToken()) {
+          dispatch(restoreSession())
+        }
+      }, [navigate, isLoggedin]);
 
       return <Component />;
   }
